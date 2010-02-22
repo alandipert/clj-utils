@@ -1,5 +1,5 @@
 (ns org.dipert.utils.math
-  "These are some math-related functions I've found useful."
+  "These are some math-related functions I've found useful. 8-)"
   (:use (clojure.contrib math)))
 
 (defn- powers-of [n]
@@ -21,7 +21,7 @@
 	vals (range 0 (inc (count syms)))]
     (zipmap syms vals)))
 
-(defn- prep-str [s base]
+(defn- prep-str [#^String s base]
   "Maps characters to values, ignoring unrecognized characters."
   (let [charmap (syms-vals base)]
     ;; Convert to upper case, filter out unknown chars, map to values

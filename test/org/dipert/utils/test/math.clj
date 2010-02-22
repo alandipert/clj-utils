@@ -7,7 +7,7 @@
   `(let ~(reduce #(conj %1 %2 `(ns-resolve '~ns '~%2)) [] fns)
      ~@tests))
 
-(with-private-fns [org.dipert.alan.utils.math [powers-of syms-vals char-range prep-str]]
+(with-private-fns [org.dipert.utils.math [powers-of syms-vals char-range prep-str]]
 
   (deftest test-powers-of
     (let [powers-2 (powers-of 2)
@@ -35,8 +35,8 @@
 (deftest test-strton
   (is (= 3764 (strton "0111010110100" 2)) "The binary string should equal 3764 in decimal")
   (is (= 3764 (strton "7264" 8)) "The octal string should equal 3764 in decimal")
-  (is (= 3764 (strton "EB4" 16)) "The hex string EB4 should equal 3764 in decimal")
-  (is (= 3764 (strton "eb4" 16)) "The hex string eb4 should equal 3764 in decimal")
+  (is (= 3764 (strton "EB4" 16)) "The hex string should equal 3764 in decimal")
+  (is (= 3764 (strton "eb4" 16)) "The hex string should equal 3764 in decimal")
   (is (= 3764 (strton "zeb4q" 16)) "The corrupt hex string should equal 3764 in decimal")
   (is (= 3764 (strton "0xEB4" 16)) "The hex string with a preceding 0x should equal 3764 in decimal")
   (is (= 717 (strton "5a2" 11))) "The undecimal string should equal 717 in decimal")
