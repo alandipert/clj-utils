@@ -41,8 +41,8 @@
   (is (= 3764 (strton "0xEB4" 16)) "The hex string with a preceding 0x should equal 3764 in decimal")
   (is (= 717 (strton "5a2" 11))) "The undecimal string should equal 717 in decimal")
 
-(deftest test-ccomp
-  (is (= true (ccomp 1 < 2 < 3)) "One is less than two is less than three")
-  (is (= false (ccomp 1 < 0)) "One should not be less than zero")
-  (is (thrown? AssertionError (ccomp 1 <)) "Argument list should contain an odd number of elements")
-  (is (thrown? AssertionError (ccomp 1 < 2 3)) "Numbers must be interleaved with operators"))
+(deftest test-ccmp
+  (is (= true (ccmp 1 < 2 < 3 < 100 <= 433)) "One is less than two is less than three is less than 100 is lte 433")
+  (is (= false (ccmp 1 < 0)) "One should not be less than zero")
+  (is (= false (ccmp 1 >= 0 < 10 > 200)) "Bonkers to expect this to work")
+  (is (= true (ccmp 5 < 10 = 10)) "The equality operator is in the mix"))
