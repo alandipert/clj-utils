@@ -1,4 +1,4 @@
-(ns org.dipert.alan.utils.math
+(ns org.dipert.utils.math
   "These are some math-related functions I've found useful."
   (:use (clojure.contrib math)))
 

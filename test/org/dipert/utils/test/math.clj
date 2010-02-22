@@ -1,5 +1,5 @@
-(ns org.dipert.alan.utils.test.math
-  (:use [org.dipert.alan.utils.math])
+(ns org.dipert.utils.test.math
+  (:use [org.dipert.utils.math])
   (:use [clojure.test]))
 
 (defmacro with-private-fns [[ns fns] & tests]
