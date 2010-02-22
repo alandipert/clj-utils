@@ -1,9 +1,0 @@
-# close personal clj functions of alan
-
-Stuff I made for doing things, mostly mathy things, like a strton(3)
-clone.  Also, check out tests/math.clj for a cool macro that lets you
-test private functions in a different namespace.
-
-## License
-
-WTFPL
