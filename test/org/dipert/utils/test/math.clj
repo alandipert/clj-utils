@@ -2,12 +2,12 @@
   (:use [org.dipert.utils.math])
   (:use [clojure.test]))
 
-(defmacro with-private-fns [[ns fns] & tests]
+(defmacro with-private-vars [[ns vars] & tests]
   "Refers private fns from ns and runs tests in context."
-  `(let ~(reduce #(conj %1 %2 `(ns-resolve '~ns '~%2)) [] fns)
+  `(let ~(reduce #(conj %1 %2 `@(ns-resolve '~ns '~%2)) [] vars)
      ~@tests))
 
-(with-private-fns [org.dipert.utils.math [powers-of syms-vals char-range prep-str]]
+(with-private-vars [org.dipert.utils.math [powers-of syms-vals char-range prep-str]]
 
   (deftest test-powers-of
     (let [powers-2 (powers-of 2)
