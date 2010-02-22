@@ -34,3 +34,8 @@
 	  ;; Create pairs of powers and values
 	  (* pow val)) (partition 2 (interleave (powers-of base) (prep-str s base))))))
 
+(defmacro ccomp
+  "Chained comparison, a la Python (and math). Requires an odd number of arguments, with interposed boolean operators."
+  [& args]
+  {:pre [(odd? (count args)) (reduce #(and %1 (number? %2)) (map first (partition 2 args)))]}
+  `(and ~@(map (fn [[x y z]] `(~y ~x ~z)) (partition 3 2 args))))

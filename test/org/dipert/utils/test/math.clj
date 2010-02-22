@@ -40,3 +40,9 @@
   (is (= 3764 (strton "zeb4q" 16)) "The corrupt hex string should equal 3764 in decimal")
   (is (= 3764 (strton "0xEB4" 16)) "The hex string with a preceding 0x should equal 3764 in decimal")
   (is (= 717 (strton "5a2" 11))) "The undecimal string should equal 717 in decimal")
+
+(deftest test-ccomp
+  (is (= true (ccomp 1 < 2 < 3)) "One is less than two is less than three")
+  (is (= false (ccomp 1 < 0)) "One should not be less than zero")
+  (is (thrown? AssertionError (ccomp 1 <)) "Argument list should contain an odd number of elements")
+  (is (thrown? AssertionError (ccomp 1 < 2 3)) "Numbers must be interleaved with operators"))
