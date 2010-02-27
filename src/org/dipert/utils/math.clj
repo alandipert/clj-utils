@@ -10,7 +10,6 @@
   "Given an even number of limit characters, 
    creates an inclusive character sequence"
   (apply concat (map (fn [[start end]]
-		       ;; Partition pairs, convert to ints, map back to chars
 		       (map char (range (int start)
 					(inc (int end))))) (partition 2 limits))))
 
@@ -27,14 +26,11 @@
   "Maps characters to values, ignoring unrecognized 
    characters."
   (let [charmap (syms-vals base)]
-    ;; Convert to upper case, filter out unknown chars, map to values
     (map charmap (filter #(contains? charmap %) (reverse (-> s .toUpperCase))))))
 
 (defn strton [s base]
   "Given string s and int base, convert to integer"
-  ;; Multiply pairs of powers and values, then sum them
   (reduce + (map (fn [[pow val]]
-	  ;; Create pairs of powers and values
 	  (* pow val)) (partition 2 (interleave (powers-of base) (prep-str s base))))))
 
 (defmacro ccmp
