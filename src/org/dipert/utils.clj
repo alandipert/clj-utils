@@ -1,26 +1,30 @@
 (ns org.dipert.utils
-  "These are some math-related functions I've found useful. 8-)"
+  "These are some functions I've found useful. 8-)"
   (:use clojure.contrib.math))
 
-(defn powers-of [n]
+(defn powers-of
   "For given base n, create lazy sequence of powers of n"
+  [n]
   (iterate #(* % n) 1))
 
-(defn char-range [& limits]
-  {:pre [(even? (count limits))]}
+(defn char-range
   "Given an even number of limit characters,
    creates an inclusive character sequence"
+  [& limits]
+  {:pre [(even? (count limits))]}
   (map char (mapcat (fn [[start end]]
 		      (range (int start) (inc (int end)))) (partition 2 limits))))
 
-(defn rands-from [from-set]
-  "Lazy sequence of random members of from-set"
+(defn rands-from
+  "Lazy sequence of random members of from-set"  
+  [from-set]
   (let [from (vec from-set)]
     (lazy-seq (cons (from (rand-int (count from))) (rands-from from)))))
 
-(defn rand-str [len from-chars]
+(defn rand-str
   "Random string of length len composed of items
    from from-chars"
+  [len from-chars]
   (apply str (take len (rands-from from-chars))))
 
 (defn- syms-vals
@@ -31,14 +35,16 @@
   (zipmap (take base (char-range \0 \9 \A \Z))
 	  (iterate inc 0)))
 
-(defn- prep-str [#^String s base]
+(defn- prep-str
   "Maps characters to values, ignoring unrecognized 
    characters."
+  [#^String s base]
   (let [charmap (syms-vals base)]
     (map charmap (filter #(contains? charmap %) (reverse (-> s .toUpperCase))))))
 
-(defn strton [s base]
-  "Given string s and int base, convert to integer"
+(defn strton
+  "Given string s and int base, convert to integer"  
+  [s base]
   (reduce + (map (fn [[pow val]]
 	  (* pow val)) (partition 2 (interleave (powers-of base) (prep-str s base))))))
 
