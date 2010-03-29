@@ -9,10 +9,10 @@
 	   10 (count base-10-syms)
 	   2  (base-10-syms \2)
 	   45 (reduce + (vals base-10-syms)) "Powers of 10 should have these properties")
-      (are [x] (thrown? AssertionError x)
-	   (syms-vals 123)
-	   (syms-vals 0)
-	   (syms-vals -34)) "Should throw AssertionErrors"))
+      (are [x] (thrown? AssertionError (syms-vals x))
+	   123
+	   0
+	   -34) "Should throw AssertionErrors"))
   
   (deftest test-prep-str
     (are [x y] (= x y)
@@ -31,14 +31,14 @@
 	 100000 (nth powers-10 5)) "Powers of 2,8,10 should have these properties"))
 
 (deftest test-strton
-  (are [x y] (= x y)
-       3764 (strton "0111010110100" 2)
-       3764 (strton "7264" 8)
-       3764 (strton "EB4" 16)
-       3764 (strton "eb4" 16)
-       3764 (strton "zeb4q" 16)
-       3764 (strton "0xEB4" 16)
-       717  (strton "5a2" 11) "Should all be equal to these base-10 numbers"))
+  (are [n base] (= 3764 (strton n base))
+       "0111010110100" 2
+       "7264"          8
+       "EB4"           16
+       "eb4"           16
+       "zeb4q"         16
+       "0xEB4"         16
+       "2912"          11 "Should all be equal 3764"))
 
 (deftest test-ccmp
   (are [x y] (= x y)
