@@ -29,7 +29,7 @@
   [base]
   {:pre [(<= base 36) (> base 1)]}
   (zipmap (take base (char-range \0 \9 \A \Z))
-	  (range 0 (inc (count syms)))))
+	  (iterate inc 0)))
 
 (defn- prep-str [#^String s base]
   "Maps characters to values, ignoring unrecognized 
