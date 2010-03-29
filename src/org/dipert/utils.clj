@@ -11,9 +11,7 @@
   "Given an even number of limit characters,
    creates an inclusive character sequence"
   (map char (mapcat (fn [[start end]]
-		      (range (int start)
-			     (inc (int end))))
-		    (partition 2 limits))))
+		      (range (int start) (inc (int end)))) (partition 2 limits))))
 
 (defn rands-from [from-set]
   "Lazy sequence of random members of from-set"
@@ -30,9 +28,8 @@
    decimal values"
   [base]
   {:pre [(<= base 36) (> base 1)]}
-  (let [syms (take base (char-range \0 \9 \A \Z))
-	vals (range 0 (inc (count syms)))]
-    (zipmap syms vals)))
+  (zipmap (take base (char-range \0 \9 \A \Z))
+	  (range 0 (inc (count syms)))))
 
 (defn- prep-str [#^String s base]
   "Maps characters to values, ignoring unrecognized 

@@ -6,41 +6,47 @@
 
   (deftest test-syms-vals
     (let [base-10-syms (syms-vals 10)]
-      (is (= 10 (count base-10-syms)) "The number of keys should be 10")
-      (is (= 2 (base-10-syms \2)) "The key \\2 should map to the number 2")
-      (is (= 45 (reduce + (vals base-10-syms))) "The sum of the decimal values should be 45")
-      (is (thrown? AssertionError (syms-vals 123)) "A base larger than 36 should throw AssertionError")
-      (is (thrown? AssertionError (syms-vals 0)) "A zero base should throw AssertionError")
-      (is (thrown? AssertionError (syms-vals -34)) "A negative base should throw AssertionError")))
+      (are [x y] (= x y)
+	   10 (count base-10-syms)
+	   2 (base-10-syms \2)
+	   45 (reduce + (vals base-10-syms)))
+      (are [x] (thrown? AssertionError x)
+	   (syms-vals 123)
+	   (syms-vals 0)
+	   (syms-vals -34))))
   
   (deftest test-prep-str
-    (is (= 3 (count (prep-str "abc" 16))) "The number of values in the hex string 'abc' should be 3")
-    (is (= 12 (first (prep-str "10c" 16))) "The first value of the hex string '10c' should be 12 (c=12)")
-    (is (= 1 (last (prep-str "10c" 16))) "The last value of the hex string '10c' should be 1 (1=1)")
-    (is (= 3 (count (prep-str "azbxc" 16))) "Non-hex chars in input should be ignored")))
+    (are [x y] (= x y)
+	 3 (count (prep-str "abc" 16))
+	 12 (first (prep-str "10c" 16))
+	 1 (last (prep-str "10c" 16))
+	 3 (count (prep-str "azbxc" 16)))))
 
 (deftest test-powers-of
   (let [powers-2 (powers-of 2)
 	powers-8 (powers-of 8)
 	powers-10 (powers-of 10)]
-    (is (= 1024 (nth powers-2 10)) "The 10th power of 2 should be 1024")
-    (is (= 73 (reduce + (take 3 powers-8))) "The sum of the first 3 powers of 8 should be 73")
-    (is (= 100000 (nth powers-10 5)))) "The sum of the first 5 powers of 10 should be 100000")
+    (are [x y] (= x y)
+	 1024 (nth powers-2 10)
+	 73 (reduce + (take 3 powers-8))
+	 100000 (nth powers-10 5))))
 
 (deftest test-strton
-  (is (= 3764 (strton "0111010110100" 2)) "The binary string should equal 3764 in decimal")
-  (is (= 3764 (strton "7264" 8)) "The octal string should equal 3764 in decimal")
-  (is (= 3764 (strton "EB4" 16)) "The hex string should equal 3764 in decimal")
-  (is (= 3764 (strton "eb4" 16)) "The hex string should equal 3764 in decimal")
-  (is (= 3764 (strton "zeb4q" 16)) "The corrupt hex string should equal 3764 in decimal")
-  (is (= 3764 (strton "0xEB4" 16)) "The hex string with a preceding 0x should equal 3764 in decimal")
-  (is (= 717 (strton "5a2" 11))) "The undecimal string should equal 717 in decimal")
+  (are [x y] (= x y)
+       3764 (strton "0111010110100" 2)
+       3764 (strton "7264" 8)
+       3764 (strton "EB4" 16)
+       3764 (strton "eb4" 16)
+       3764 (strton "zeb4q" 16)
+       3764 (strton "0xEB4" 16)
+       717 (strton "5a2" 11)))
 
 (deftest test-ccmp
-  (is (= true (ccmp 1 < 2 < 3 < 100 <= 433)) "One is less than two is less than three is less than 100 is lte 433")
-  (is (= false (ccmp 1 < 0)) "One should not be less than zero")
-  (is (= false (ccmp 1 >= 0 < 10 > 200)) "Bonkers to expect this to work")
-  (is (= true (ccmp 5 < 10 = 10)) "The equality operator is in the mix"))
+  (are [x y] (= x y)
+       true (ccmp 1 < 2 < 3 < 100 <= 433)
+       false (ccmp 1 < 0)
+       false (ccmp 1 >= 0 < 10 > 200)
+       true (ccmp 5 < 10 = 10)))
 
 (deftest test-char-range
   (is (= [\A \B \C \0 \1 \2] (char-range \A \C \0 \2)))
@@ -48,8 +54,9 @@
 
 (deftest test-rands-from
   (let [from-set #{:A :B :C}]
-    (is (= 100 (count (take 100 (rands-from from-set)))))
-    (is (= nil ((set (take 10 (rands-from from-set))) :D)))))
+    (are [x y] (= x y)
+	 100 (count (take 100 (rands-from from-set)))
+	 nil ((set (take 10 (rands-from from-set))) :D))))
 
 (deftest test-rand-str
   (let [randstr (rand-str 10 (char-range \a \z \A \Z))]
