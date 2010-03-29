@@ -1,6 +1,6 @@
 (ns org.dipert.utils
   "These are some math-related functions I've found useful. 8-)"
-  (:use (clojure.contrib math)))
+  (:use clojure.contrib.math))
 
 (defn powers-of [n]
   "For given base n, create lazy sequence of powers of n"

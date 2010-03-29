@@ -1,6 +1,5 @@
 (ns org.dipert.test.utils
-  (:use (clojure.test)
-	(org.dipert.utils)))
+  (:use clojure.test org.dipert.utils))
 
 (with-private-vars [org.dipert.utils [syms-vals prep-str]]
 
