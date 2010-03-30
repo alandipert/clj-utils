@@ -66,3 +66,7 @@
     (is (every? #(and (>= (int %) (int \A))
 		      (<= (int %) (int \z)))
 		randstr)) "Every member should be greater than A and less than z"))
+
+(deftest test-using-iota
+  (is (= 3 (using-iota
+	(+ iota iota iota)))))

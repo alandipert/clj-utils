@@ -1,6 +1,6 @@
 (ns org.dipert.utils
   "These are some functions I've found useful. 8-)"
-  (:use clojure.contrib.math))
+  (:use [clojure.walk :only [postwalk-replace]]))
 
 (defn powers-of
   "For given base n, create lazy sequence of powers of n"
@@ -56,7 +56,16 @@
   {:pre [(odd? (count args))]}
   `(and ~@(map (fn [[n1 f n2]] `(~f ~n1 ~n2)) (partition 3 2 args))))
 
-(defmacro with-private-vars [[ns vars] & tests]
+(defmacro with-private-vars
   "Refers private fns from ns and runs tests in context."
+  [[ns vars] & tests]
   `(let ~(reduce #(conj %1 %2 `@(ns-resolve '~ns '~%2)) [] vars)
      ~@tests))
+
+(defmacro using-iota
+  "Provides a local symbol 'iota' representing a self-incrementing value"
+  [& body]
+  (let [iota  (gensym "iota")
+	forms (map #(postwalk-replace {'iota `(swap! ~iota inc)} %) body)]
+    `(let [~iota (atom -1)]
+       ~@forms)))
